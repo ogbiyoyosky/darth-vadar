@@ -1,0 +1,7 @@
+server.name: kibana
+elasticsearch.hosts: ["http://elasticsearch:9200"]
+server.host: "0"
+apm_oss.enabled: true
+xpack.apm.enabled: true
+xpack.apm.ui.enabled: true
+logging.dest: stdout
