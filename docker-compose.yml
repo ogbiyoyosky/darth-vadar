@@ -1,0 +1,127 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+    container_name: express_app
+    links:
+      - elasticsearch
+      - kibana
+    depends_on:
+      - elasticsearch
+      - kibana
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
+      - kibana
+    restart: always
+    environment: 
+      - PORT=7000
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    networks:
+      - elk
+    ports:
+      - 7000:7000
+
+  db:
+    image: mysql/mysql-server:5.7.22
+    container_name: mysql
+    ports:
+      - 3306:3306
+    expose:
+      # Opens port 3306 on the container
+      - "3306"
+    command: --innodb_use_native_aio=0 --socket=/tmp/mysql.sock --bind_address=0.0.0.0
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_HOST: "mysql"
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_DATABASE: "darthvadar"
+      DATABASE_HOST: mysql
+      MYSQL_USER: "darthvadar"
+      MYSQL_PASSWORD: "123456"
+      MYSQL_LOG_CONSOLE: "true"
+    restart: always
+    networks:
+      - elk
+    healthcheck:
+      test: ["CMD", "curl", "-fk", "tcp://localhost:3306"]
+      interval: 300s
+      timeout: 400s
+      retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.0.1
+    container_name: phpmyadmin
+    restart: always
+    environment:
+        PMA_HOST: mysql
+        MYSQL_ROOT_PASSWORD: 123456
+    ports:
+        - "8089:80"
+    networks:
+      - elk
+    depends_on:
+        - db
+    
+  redis:
+    image: redis:6.0.6
+    volumes:
+        - ./redis/data:/data
+    networks:
+      - elk
+    ports:
+        - 16379:6379
+    entrypoint: redis-server --appendonly yes
+  
+  kibana:
+    container_name: kibana
+    build:
+       context: kibana/
+       args:
+         ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./kibana/config/:/usr/share/kibana/config
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    container_name: elasticsearch
+    build:
+        context: elasticsearch
+        args:
+          ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elasticsearch/storage:/usr/share/elasticsearch/data:rw
+
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+    environment:
+      - ES_JAVA_OPTS=-Xmx256m -Xms256m
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - http.cors.allow-origin=*
+    networks:
+      - elk
+    ulimits:
+      memlock:
+        soft:  -1
+        hard:  -1
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  elasticsearch:
+  log-data:
+    
