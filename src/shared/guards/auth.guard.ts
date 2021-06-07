@@ -27,7 +27,6 @@ export default function AuthGuard(options?: AuthGuardOptions): RequestHandler {
     //const { token } = req.cookies;
     const { authorization } = req.headers;
     const token = authorization?.split(' ')[1];
-    console.log(token)
 
     try {
       if (!token) {
@@ -38,14 +37,16 @@ export default function AuthGuard(options?: AuthGuardOptions): RequestHandler {
 
       const userInfoFromDB = await User.query().findById(decodedUserInfo.id);
 
-      if (!userInfoFromDB || userInfoFromDB.isDeleted || userInfoFromDB.deactivatedAt) throw new Error();
+      if(!userInfoFromDB.isActivated) throw new UnauthorizedError('Account not activated')
+
+      if (!userInfoFromDB || userInfoFromDB.isDeleted || userInfoFromDB.deactivatedAt ) throw new UnauthorizedError('Please sign in or create an account')
 
       req['user'] = decodedUserInfo;
 
       next();
     } catch (error) {
       if (strict) {
-        next(new UnauthorizedError('Please sign in or create an account'));
+        next(error);
       }
 
       next();

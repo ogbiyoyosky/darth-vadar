@@ -1,6 +1,8 @@
-import { Router } from "express";
 
+import { Router } from "express";
 import env from './helpers/env';
+import { authRouter } from "./components/auth";
+import { filmRouter } from "./components/film";
 
 
 
@@ -12,8 +14,10 @@ router.get("/welcome", (req, res) => {
   });
 });
 
-// router.use('/api/auth', authRouter);
-// router.use('/api/users', userRouter);
+router.use('/api/films', filmRouter);
+router.use('/api/auth', authRouter);
 
 
 export default router;
+
+

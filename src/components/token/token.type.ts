@@ -1,7 +1,7 @@
 export class TokenType {
   id?: string;
   value?: string;
-  ownerId?: string;
+  ownerId?: number;
   type?: string;
   expiresAt?: Date;
   createdAt?: Date;

@@ -4,7 +4,7 @@ dotenv.config()
 
 const { ElasticsearchTransport } = require('winston-elasticsearch');
 
-console.log(process.env.ELASTICSEARCH_URL)
+
 
 const esTransportOpts = {
   level: 'info',

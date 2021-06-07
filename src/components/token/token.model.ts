@@ -4,7 +4,7 @@ export class Token extends Model {
   id!: string;
   value?: string;
   type?: string;
-  ownerId?: string;
+  ownerId?: number;
   expiresAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;

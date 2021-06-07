@@ -20,7 +20,7 @@ export function AuthRouter(options: ComponentRouterOptions<IAuthController, Auth
     /**
      * @verifyEmail - Verifies a user's email address
      */
-    router.post('/verification', controller.verifyEmail);
+    router.get('/verification', controller.verifyEmail);
 
     /**
      * @resendVerificationMail - Resends verification mail
@@ -50,12 +50,12 @@ export function AuthRouter(options: ComponentRouterOptions<IAuthController, Auth
     /**
      * @logout
      */
-    router.post("/logout", controller.logout);
+    router.post("/logout", validator.RefreshTokenDto.validate, controller.logout);
 
     /**
      * @generateRefreshTohen
      */
-    // router.post("/refresh-token", AuthController.generateToken);
+     router.post("/refresh-token", validator.RefreshTokenDto.validate, controller.generateToken);
 
 
     return router;

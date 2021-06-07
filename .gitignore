@@ -50,6 +50,7 @@ Thumbs.db
 *.app
 *.exe
 *.war
+mysqlDB
 
 # Large media files
 *.mp4

@@ -8,7 +8,7 @@ export interface CreateUserAccountInput {
 }
 
 export interface AuthJWTInput {
-  id: string;
+  id: number;
   email: string;
   role: string;
 }
@@ -20,7 +20,7 @@ export interface LoginInput {
 }
 
 export interface ChangePasswordInput {
-  userId: string;
+  userId: number;
   currentPassword: string;
   newPassword: string;
   confirmPassword: string;

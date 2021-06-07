@@ -1,7 +1,7 @@
 import {Model, ModelObject} from 'objection'
 
 export class User extends Model {
-  id!: string;
+  id!: number;
   firstName!: string;
   lastName!: string;
   email!: string;
@@ -13,9 +13,13 @@ export class User extends Model {
   role!: string;
   createdAt!: Date;
   updatedAt!: Date;
+
+  
+  
   
   static tableName = 'users' // database table name
   static idColumn = 'id' // id column name
+
 }
 
 export type UserShape = ModelObject<User>

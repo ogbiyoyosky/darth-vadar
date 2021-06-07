@@ -1,5 +1,5 @@
 export class UserType {
-    readonly id?: string;
+    readonly id?: number;
     firstName?: string;
     lastName?: string;
     email?: string;
@@ -15,7 +15,7 @@ export class UserType {
 }
 
 export class UserProfileType {
-    readonly _id?: string;
+    readonly _id?: number;
     readonly id?: string;
     firstName?: string;
     lastName?: string;

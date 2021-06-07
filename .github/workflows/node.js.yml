@@ -1,0 +1,43 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: npm install, build and test
+        env:
+          ELASTICSEARCH_URL: ${{secrets.ELASTICSEARCH_URL}}
+          TEST_DB_NAME: ${{secrets.TEST_DB_NAME}}
+          DB_HOST: ${{secrets.DB_HOST}}
+          DB_PORT: ${{secrets.DB_PORT}}
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          REDIS_URL: ${{secrets.REDIS_URL}}
+          BASE_URL_URL_PROD: ${{secrets.BASE_URL_URL_PROD}}
+          REDIS_URL: ${{secrets.REDIS_URL}}
+          BCRYPT_SALT: ${{secrets.BCRYPT_SALT}}
+          REFRESH_TOKEN_SECRET: ${{secrets.REFRESH_TOKEN_SECRET}}
+          JWT_AUTH_SECRET: ${{secrets.JWT_AUTH_SECRET}}
+          MAIL_HOST: ${{secrets.MAIL_HOST}}
+          MAIL_PORT: ${{secrets.MAIL_PORT}}
+          MAIL_CONNECTION: ${{secrets.MAIL_CONNECTION}}
+          MAIL_USERNAME: ${{secrets.MAIL_USERNAME}}
+          MAIL_PASSWORD: ${{secrets.MAIL_PASSWORD}}
+        run: |
+          npm install
+          npm test

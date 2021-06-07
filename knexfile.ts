@@ -1,4 +1,4 @@
-// Update with your config settings.
+// Update with your config settings.require('ts-node/register');
 import dotenv from 'dotenv'
 dotenv.config()
 module.exports = {
@@ -8,6 +8,8 @@ module.exports = {
     connection: {
       database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
+      port: process.env.DB_PORT,
+      host: process.env.DB_HOST,
       password: process.env.DB_PASSWORD,
     },
     pool: {
@@ -15,11 +17,10 @@ module.exports = {
       max: 10
     },
     migrations: {
+      loadExtensions: ['.ts'],
+      extension: 'ts',
       tableName: 'knex_migrations',
-      directory: __dirname + '/src/database/migrations'
-    },
-    seeds: {
-      directory: __dirname + '/src/database/seeds'
+      directory: __dirname + './src/database/migrations'
     },
   },
 
@@ -40,10 +41,12 @@ module.exports = {
   },
 
   test: {
-    client: "mysql2",
+    client: 'mysql2',
     connection: {
-      database: process.env.DB_NAME,
+      database: process.env.TEST_DB_NAME,
       user: process.env.DB_USERNAME,
+      port: process.env.DB_PORT,
+      host: process.env.DB_HOST,
       password: process.env.DB_PASSWORD,
     },
     pool: {
@@ -51,8 +54,11 @@ module.exports = {
       max: 10
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
+      loadExtensions: ['.ts'],
+      extension: 'ts',
+      tableName: 'knex_migrations',
+      directory: __dirname + './src/database/migrations'
+    },
   },
 
   production: {

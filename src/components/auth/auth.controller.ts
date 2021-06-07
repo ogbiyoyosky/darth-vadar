@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import httpStatus from 'http-status';
+import logger from '../../logger';
 import { CurrentUserType } from '../../shared/types/CurrentUser';
 import { AuthService } from './auth.service';
 
@@ -12,6 +13,7 @@ export interface IAuthController {
     changePassword: RequestHandler,
     requestPasswordReset: RequestHandler,
     resetPassword: RequestHandler,
+    generateToken: RequestHandler,
     logout: RequestHandler,
 }
 
@@ -32,12 +34,13 @@ export function AuthControllerFactory(authService: AuthService): IAuthController
         const user = await authService.register(body);
   
         return res.status(httpStatus.CREATED).json({
-          message: 'User account was created successfully',
+          message: 'User account was created successfully, please check your email for confirmation',
           status: 'success',
           statusCode: httpStatus.CREATED,
           data: user,
         });
       } catch (error) {
+        logger.info(JSON.stringify(error))
         next(error);
       }
     },
@@ -55,7 +58,6 @@ export function AuthControllerFactory(authService: AuthService): IAuthController
   
         const loginData = await authService.verifyEmail(token);
     
-        authService.storeTokenInCookie(res, loginData.token);
     
         return res.status(httpStatus.OK).json({
           message: 'Email was successfully verified',
@@ -64,6 +66,7 @@ export function AuthControllerFactory(authService: AuthService): IAuthController
           data: loginData,
         });
       } catch (error) {
+        logger.info(JSON.stringify(error))
         next(error);
       }
     },
@@ -86,6 +89,7 @@ export function AuthControllerFactory(authService: AuthService): IAuthController
           statusCode: httpStatus.OK,
         });
       } catch (error) {
+        logger.info(JSON.stringify(error))
         next(error);
       }
     },
@@ -103,7 +107,6 @@ export function AuthControllerFactory(authService: AuthService): IAuthController
       try {
         const loginData = await authService.login(body);
     
-        authService.storeTokenInCookie(res, loginData.token);
     
         return res.status(httpStatus.OK).json({
           message: 'Logged in successfully',
@@ -112,6 +115,7 @@ export function AuthControllerFactory(authService: AuthService): IAuthController
           data: loginData,
         });
       } catch (error) {
+        logger.info(JSON.stringify(error))
         next(error);
       }
     },
@@ -136,6 +140,7 @@ export function AuthControllerFactory(authService: AuthService): IAuthController
           statusCode: httpStatus.OK,
         });
       } catch (error) {
+        logger.info(JSON.stringify(error))
         next(error);
       }
     },
@@ -159,6 +164,7 @@ export function AuthControllerFactory(authService: AuthService): IAuthController
           statusCode: httpStatus.OK,
         });
       } catch (error) {
+        logger.info(JSON.stringify(error))
         next(error);
       }
     },
@@ -182,6 +188,31 @@ export function AuthControllerFactory(authService: AuthService): IAuthController
           statusCode: httpStatus.OK,
         })
       } catch(error) {
+        logger.info(JSON.stringify(error))
+        next(error);
+      }
+    },
+  
+    /**
+     * Generate refresh token
+     */
+     async generateToken(
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ): Promise<any> {
+      const { body } = req;
+      try {
+        const loginInfo = await authService.generateNewRefreshToken(body.refreshToken);
+    
+        return res.status(200).json({
+          message: 'Successfully renewed session',
+          status: 'success',
+          statusCode: httpStatus.OK,
+          data: loginInfo
+        })
+      } catch(error) {
+        logger.info(JSON.stringify(error))
         next(error);
       }
     },
@@ -206,6 +237,7 @@ export function AuthControllerFactory(authService: AuthService): IAuthController
           status: "success",
         });
       } catch (error) {
+        logger.info(JSON.stringify(error))
         next(error);
       }
     }

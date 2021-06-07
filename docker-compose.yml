@@ -34,7 +34,7 @@ services:
       - "3306"
     command: --innodb_use_native_aio=0 --socket=/tmp/mysql.sock --bind_address=0.0.0.0
     volumes:
-      - ./db:/var/lib/mysql
+      - ./mysqlDb:/var/lib/mysql
     environment:
       MYSQL_HOST: "mysql"
       MYSQL_ROOT_PASSWORD: "123456"

@@ -5,10 +5,3 @@ export interface CreateUserInput  {
     password: string;
     role: string;
 }
-
-export interface CreateUserManuallyInput  {
-    firstName: string;
-    lastName: string,
-    email: string;
-    role: string;
-}

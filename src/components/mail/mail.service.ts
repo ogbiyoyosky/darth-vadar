@@ -11,10 +11,11 @@ import {
     CourseCompletionMailInput,
     EmailConfirmationInput, PasswordResetMailInput, ResendEmailConfirmationInput,
 } from './templates/interfaces/template.interface';
+import logger from '../../logger';
 
 
 export class MailService {
-    from: string = '"LMS" <snettpro@gmail.com>';
+    from: string = '"Dartvadar" <snettpro@gmail.com>';
     transportOption: SMTPTransport.Options;
     mail: Mail;
 
@@ -39,7 +40,8 @@ export class MailService {
      * @param { string } templateName - The name of a template file in the `mailTemplates` directory
      */
     composeTemplate(templateName: string, data: object): string {
-        const templatePath = path.join(__dirname, '../../../src/components/mail/templates', `/${templateName}.hbs`);
+        const templatePath = path.join(__dirname, '../../../../src/components/mail/templates', `/${templateName}.hbs`);
+        console.log({templatePath})
         const templateFile = fs.readFileSync(templatePath).toString();
         const template = handlebars.compile(templateFile);
         return template(data);
@@ -55,7 +57,7 @@ export class MailService {
      */
     async send(options: SendOption) {
       try {
-          await this.mail.sendMail({
+          this.mail.sendMail({
               from: options.from || this.from,
               to: options.recipients,
               subject: options.subject,
@@ -64,6 +66,7 @@ export class MailService {
               attachments: options.attachments
           });
       } catch (error) {
+          logger.info(JSON.stringify(error))
           console.error(error);
           throw error;
       }

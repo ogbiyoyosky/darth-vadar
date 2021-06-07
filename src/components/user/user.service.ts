@@ -13,7 +13,7 @@ export class UserService {
     private BCRYPT_SALT: number = parseInt(env.get('BCRYPT_SALT'));
     
     constructor(
-        readonly userModel = User
+        private readonly userModel = User
     ) {};
 
     /**
@@ -121,7 +121,7 @@ export class UserService {
     /**
      * Finds a user by ID
      */
-    async findById(id: string): Promise<UserShape> {
+    async findById(id: number): Promise<UserShape> {
         return await this.userModel.query().findOne({ id: id });
     }
 
@@ -131,7 +131,7 @@ export class UserService {
      * @param { string } id - The ID of a user
      * @param { UserType } data - An object containing the details of the user to be updated
      */
-     async update(id: string, data: UserType): Promise<UserType> {
+     async update(id: number, data: UserType): Promise<UserType> {
         await this.userModel.query().patch(data).where({ id: id })
         const user = await this.userModel.query().findOne({ id: id })
         return this.obtainProfile(user);

@@ -47,6 +47,15 @@ export class AuthValidator {
         }
     });
 
+    RefreshTokenDto = createValidator((Joi) => {
+      return {
+          refreshToken: Joi.string()
+            .required()
+            .trim()
+            .error(new Error("Refresh token is required")),
+      }
+  });
+
     RequestPassqordResetDto = createValidator((Joi) => {
         return {
             email: Joi.string()

@@ -18,7 +18,6 @@ export class UserValidator {
         .lowercase()
         .error(new Error("A valid email address is required")),
       role: Joi.string()
-        .required()
         .trim()
         .lowercase()
         .valid('student', 'admin')

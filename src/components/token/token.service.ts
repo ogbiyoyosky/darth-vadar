@@ -15,6 +15,11 @@ export class TokenService {
     private readonly tokenModel = Token
   ) {}
 
+  /**
+   * checkIfExpired - check if token has expired
+   * @param token 
+   * @returns boolen
+   */
   checkIfExpired(token: TokenType): boolean {
     if (!token.expiresAt) {
       return false;
