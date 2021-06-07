@@ -1,5 +1,5 @@
 import request from 'supertest'
-import Knex from "Knex";
+import Knex from "knex";
 import app from '../app'
 import dotenv from 'dotenv'
 import { assert } from '@hapi/joi';
@@ -9,7 +9,7 @@ const knex = Knex({
   connection: {
     database: process.env.TEST_DB_NAME,
     user: process.env.DB_USERNAME,
-    port: 33664,
+    port: Number(process.env.DB_PORT),
     host: process.env.DB_HOST,
     password: process.env.DB_PASSWORD,
   },
