@@ -29,7 +29,6 @@ jobs:
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
           REDIS_URL: ${{secrets.REDIS_URL}}
           BASE_URL_URL_PROD: ${{secrets.BASE_URL_URL_PROD}}
-          REDIS_URL: ${{secrets.REDIS_URL}}
           BCRYPT_SALT: ${{secrets.BCRYPT_SALT}}
           REFRESH_TOKEN_SECRET: ${{secrets.REFRESH_TOKEN_SECRET}}
           JWT_AUTH_SECRET: ${{secrets.JWT_AUTH_SECRET}}
