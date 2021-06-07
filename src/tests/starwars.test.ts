@@ -1,10 +1,10 @@
 import request from 'supertest'
-import Knex from "Knex";
+import * as ORM from "knex";
 import app from '../app'
 import dotenv from 'dotenv'
 import { assert } from '@hapi/joi';
 dotenv.config()
-const knex = Knex({
+const knex = ORM.knex({
   client: 'mysql2',
   connection: {
     database: process.env.TEST_DB_NAME,
