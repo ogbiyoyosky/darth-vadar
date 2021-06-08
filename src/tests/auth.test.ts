@@ -6,7 +6,7 @@ dotenv.config()
 const knex = ORM.knex({
   client: 'mysql2',
   connection: {
-    database: process.env.TEST_DB_NAME,
+    database: process.env.DB_NAME,
     user: process.env.DB_USERNAME,
     port: Number(process.env.DB_PORT),
     host: process.env.DB_HOST,

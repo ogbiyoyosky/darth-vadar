@@ -24,14 +24,14 @@ module.exports = {
       loadExtensions: ['.ts'],
       extension: 'ts',
       tableName: 'knex_migrations',
-      directory: __dirname + './src/database/migrations'
+      directory: __dirname + '/src/database/migrations'
     },
   },
 
   test: {
     client: 'mysql2',
     connection: {
-      database: process.env.TEST_DB_NAME,
+      database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
       port: process.env.DB_PORT,
       host: process.env.DB_HOST,

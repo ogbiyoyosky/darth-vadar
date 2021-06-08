@@ -1,6 +1,8 @@
-# README #
+# STARWARS API
+This application allows you to register, login and get film data and also comment on film data.
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### Setup using docker
+RUN `docker-compose up -d on the root directory of the project
 
 ### What is this repository for? ###
 
@@ -27,3 +29,5 @@ This README would normally document whatever steps are necessary to get your app
 
 * Repo owner or admin
 * Other community or team contact
+
+ https://darthvadar.herokuapp.com

@@ -127,7 +127,7 @@ export class AuthService {
    * @param { string } token - A verification token
    */
   private composeConfirmationLink(token: string): string {
-    return `${this.frontendBaseUrl}/verification?token=${token}`;
+    return `${this.frontendBaseUrl}/api/auth/verification?token=${token}`;
   }
   
   /**

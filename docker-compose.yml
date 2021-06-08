@@ -3,7 +3,7 @@ services:
   app:
     build:
       context: .
-    container_name: express_app
+    container_name: app
     links:
       - elasticsearch
       - kibana
@@ -11,20 +11,34 @@ services:
       - elasticsearch
       - kibana
     depends_on:
-      - db
+      - mysql
       - redis
       - elasticsearch
       - kibana
     restart: always
     environment: 
-      - PORT=7000
+      - PORT=9000
+      - REDISCLOUD_URL=redis:6379
       - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - BASE_URL=http://localhost:9000,
+      - BCRYPT_SALT=12
+      - REFRESH_TOKEN_SECRET=hththjjkekdkkkdkd
+      - JWT_AUTH_SECRET=kdkdkkdkk
+      - DB_USERNAME=darthvadar
+      - DB_NAME=darthvadar
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_PASSWORD=123456
+      - MAIL_HOST=smtp.mailtrap.io
+      - MAIL_PORT=2525
+      - MAIL_USERNAME=feef77fcb05965
+      - MAIL_PASSWORD=9572287878b716
     networks:
       - elk
     ports:
-      - 7000:7000
+      - 9000:9000
 
-  db:
+  mysql:
     image: mysql/mysql-server:5.7.22
     container_name: mysql
     ports:
@@ -64,7 +78,7 @@ services:
     networks:
       - elk
     depends_on:
-        - db
+        - mysql
     
   redis:
     image: redis:6.0.6
@@ -73,7 +87,7 @@ services:
     networks:
       - elk
     ports:
-        - 16379:6379
+        - 6379:6379
     entrypoint: redis-server --appendonly yes
   
   kibana:
@@ -81,7 +95,7 @@ services:
     build:
        context: kibana/
        args:
-         ELK_VERSION: $ELK_VERSION
+         ELK_VERSION: 7.5.1
     volumes:
       - ./kibana/config/:/usr/share/kibana/config
     ports:
@@ -96,7 +110,7 @@ services:
     build:
         context: elasticsearch
         args:
-          ELK_VERSION: $ELK_VERSION
+          ELK_VERSION: 7.5.1
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./elasticsearch/storage:/usr/share/elasticsearch/data:rw
