@@ -38,3 +38,4 @@ Logging was implemented with winton and elastic search
 
 
 #### POSTMAN API Documentation.
+[Postman Api documentation](https://documenter.getpostman.com/view/6226738/TzY7dDbr)
