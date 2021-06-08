@@ -7,11 +7,11 @@ dotenv.config()
 const knex = ORM.knex({
   client: 'mysql2',
   connection: {
-    database: process.env.TEST_DB_NAME,
-    user: process.env.DB_USERNAME,
-    port: Number(process.env.DB_PORT),
-    host: process.env.DB_HOST,
-    password: process.env.DB_PASSWORD,
+    database: 'test_darthvadar',
+    user: 'root',
+    port: 33664,
+    host: 'mysql-33632-0.cloudclusters.net',
+    password: 'Miracle123ogbiyoyo',
   },
   pool: {
     min: 2,
