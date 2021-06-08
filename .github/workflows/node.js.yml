@@ -22,7 +22,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Authorize Script
-      run: chmod +x ./spin-staging.sh
+      run: chmod +x ./init.sh
 
     - name: Build and test
       run: chmod +x ./init.sh 
