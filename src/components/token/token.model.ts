@@ -9,7 +9,7 @@ export class Token extends Model {
   createdAt?: Date;
   updatedAt?: Date;
 
-  static tableName = 'users' // database table name
+  static tableName = 'tokens' // database table name
   static idColumn = 'id' // id column name
 }
 

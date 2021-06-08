@@ -72,6 +72,14 @@ export class AuthValidator {
               .required()
               .trim()
               .error(new Error("Please enter a valid password")),
+            resetToken: Joi.string()
+            .required()
+            .trim()
+            .error(new Error("Please provid the token")),
+            confirmPassword: Joi.string()
+            .required()
+            .trim()
+            .error(new Error("Please enter a valid password")),
         }
     });
 }

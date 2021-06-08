@@ -316,7 +316,8 @@ export class AuthService {
       await this.mailService.sendPasswordResetLink({
         recipients: [email],
         data: {
-          resetLink: this.composePasswordResetLink(resetToken)
+          resetLink: this.composePasswordResetLink(resetToken),
+          token: resetToken
         }
       });
     }

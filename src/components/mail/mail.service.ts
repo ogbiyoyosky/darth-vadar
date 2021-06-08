@@ -111,16 +111,4 @@ export class MailService {
         });
     }
 
-    /**
-     * Sends password reset link to a user
-     * @param { PasswordResetMailInput } options - The mail options
-     */
-     async sendCourseCompletionMail(options: CourseCompletionMailInput) {
-        const template = this.composeTemplate('course-completion', options.data);
-        await this.send({
-            recipients: options.recipients,
-            subject: 'Superb! You just completed a course',
-            template
-        });
-    }
 }

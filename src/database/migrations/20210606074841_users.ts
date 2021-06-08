@@ -14,7 +14,7 @@ export async function up(knex: Knex): Promise<void> {
         t.boolean('isDeleted')
         t.string('role').defaultTo("user")
         t.timestamp('createdAt').defaultTo(knex.fn.now());
-        t.timestamp('cpdatedAt').defaultTo(knex.fn.now());
+        t.timestamp('updatedAt').defaultTo(knex.fn.now());
         t.timestamp('deletedAt').defaultTo(knex.fn.now());
     })
 }

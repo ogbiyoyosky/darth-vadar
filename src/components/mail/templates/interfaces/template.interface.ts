@@ -18,13 +18,14 @@ export interface EmailConfirmationInput extends BaseTemplateInput {
 
 export interface ResendEmailConfirmationInput extends BaseTemplateInput {
   data: {
-    confirmationLink: string
+    confirmationLink: string,
   };
 }
 
 export interface PasswordResetMailInput extends BaseTemplateInput {
   data: {
-    resetLink: string
+    resetLink: string,
+    token: string
   };
 }
 
