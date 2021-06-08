@@ -1,33 +1,39 @@
-# STARWARS API
+# Darkvadar API
 This application allows you to register, login and get film data and also comment on film data.
 
-### Setup using docker
-RUN `docker-compose up -d on the root directory of the project
+# STEPS TO RUN APP
+### Step 1: Start up the containers
+RUN `docker-compose up -d on the root directory of the project`
 
-### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### RUN test in docker container
+`docker exec -t -i app npm run test`
 
-### How do I get set up? ###
+### Run Migration
+`docker exec -t -i app knex migrate:latest`
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
 
-### Contribution guidelines ###
+### App Features
+`Create a user account`
+`Send a verification mail to user in production stage`
+`Login a user`
+`Logout a user`
+`Reset a user password`
+`Fetch a list of all films`
+`Request a specific film`
+`Comment on a film`
+`View comment on a film`
 
-* Writing tests
-* Code review
-* Other guidelines
+## Cache
+Request for films are cached using redis to reduce the api calls to the swapi api and also increase the speed of the application,
 
-### Who do I talk to? ###
+# Token Management
+ JWT was used for token along with redis for implementing refresh tokens
 
-* Repo owner or admin
-* Other community or team contact
 
- https://darthvadar.herokuapp.com
+## View Application logs on Kibana
+Logging was implemented with winton and elastic search
+`http://localhost:5601/app/kibana#/discover` 
+
+
+#### POSTMAN API Documentation.
