@@ -1,6 +1,10 @@
 // Update with your config settings.require('ts-node/register');
 import dotenv from 'dotenv'
+
 dotenv.config()
+
+
+
 module.exports = {
 
   development: {
@@ -22,22 +26,6 @@ module.exports = {
       tableName: 'knex_migrations',
       directory: __dirname + './src/database/migrations'
     },
-  },
-
-  staging: {
-    client: "postgresql",
-    connection: {
-      database: "my_db",
-      user: "username",
-      password: "password"
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: "knex_migrations"
-    }
   },
 
   test: {
@@ -62,19 +50,24 @@ module.exports = {
   },
 
   production: {
-    client: "postgresql",
+    client: 'mysql2',
     connection: {
-      database: "my_db",
-      user: "username",
-      password: "password"
+      database: process.env.DB_NAME,
+      user: process.env.DB_USERNAME,
+      port: process.env.DB_PORT,
+      host: process.env.DB_HOST,
+      password: process.env.DB_PASSWORD,
     },
     pool: {
       min: 2,
       max: 10
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
+      loadExtensions: ['.ts'],
+      extension: 'ts',
+      tableName: 'knex_migrations',
+      directory: __dirname + './src/database/migrations'
+    },
   }
 
 };
