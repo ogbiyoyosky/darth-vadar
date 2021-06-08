@@ -48,11 +48,12 @@ export class CharacterService {
    * @returns 
    */
   orderCharactersByField(orderBy: string, order: string, characters: []): any {
-    return characters.sort((a, b) => {
+    return characters.sort((a:any, b: any) => {
       if (order = 'asc') {
-        return a[orderBy] - b[orderBy];
+        return a[orderBy].localeCompare(b[orderBy]);
+        
       }
-      return b[orderBy] - a[orderBy];
+      return b[orderBy].localeCompare(a[orderBy]);
 
     })
   }
