@@ -26,6 +26,7 @@ jobs:
 
     - name: Build and test
       run: chmod +x ./init.sh 
+    - name: Depoly to heroku
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
