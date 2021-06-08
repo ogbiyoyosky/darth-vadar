@@ -25,4 +25,4 @@ jobs:
       run: chmod +x ./spin-staging.sh
 
     - name: Build and test
-      run: chmod +x ./init.sh
+      run: chmod +x ./init.sh 
