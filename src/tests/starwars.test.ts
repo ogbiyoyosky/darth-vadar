@@ -9,7 +9,7 @@ const knex = ORM.knex({
   connection: {
     database: process.env.TEST_DB_NAME,
     user: process.env.DB_USERNAME,
-    port: 33664,
+    port: Number(process.env.DB_PORT),
     host: process.env.DB_HOST,
     password: process.env.DB_PASSWORD,
   },
@@ -34,12 +34,13 @@ beforeAll(async()=> {
 afterAll(async ()=> {
   await knex.migrate.rollback()
 })
-let token
-let refreshToken
+
 
 describe('Film management suites', () => {
+  let token
+  let refreshToken
 
-  it('should register a user', async () => {
+  it('should register a user', async (done) => {
   
     const res = await request(app).post(`/api/auth/register`).send({
       "firstName": "Emmanuel",
@@ -49,9 +50,10 @@ describe('Film management suites', () => {
      })
      expect(res.status).toBe(201)
      expect(res.body.data.firstName).toEqual('Emmanuel')
+     done()
   })
 
-  it('should login a user', async () => {
+  it('should login a user', async (done) => {
   
     const res = await request(app).post(`/api/auth/login`).send({
       "email": "nuel@nueljoe.com",
@@ -61,38 +63,43 @@ describe('Film management suites', () => {
      expect(res.body.message).toEqual('Logged in successfully')
      token = res.body.data.token
      refreshToken = res.body.data.refreshToken
+     done()
   })
 
-  it('should return list of films', async () => {
+  it('should return list of films', async (done) => {
   
     const res = await request(app).get(`/api/films`)
           .set("authorization",`Bearer ${token}`)
     expect(res.status).toBe(200)
     expect(res.body.data).not.toEqual(null)
+    done()
   })
 
-  it('should search for film and return response', async () => {
+  it('should search for film and return response', async (done) => {
   
     const res = await request(app).get(`/api/films/?search=jedi`)
           .set("authorization",`Bearer ${token}`)
     expect(res.status).toBe(200)
     expect(res.body.data).not.toEqual(null)
+    done()
   })
 
-  it('should add a comment to film', async () => {
+  it('should add a comment to film', async (done) => {
   
     const res = await request(app).post(`/api/films/1/comments`)
           .set("authorization",`Bearer ${token}`)
           .send({body: "this is a new comment"})
     expect(res.status).toBe(201)
     expect(res.body.data).not.toEqual(null)
+    done()
   })
 
-  it('should return comment on a film', async () => {
+  it('should return comment on a film', async (done) => {
   
     const res = await request(app).get(`/api/films/1/comments`)
           .set("authorization",`Bearer ${token}`)
     expect(res.status).toBe(200)
     expect(res.body.data).not.toEqual(null)
+    done()
   })
 })

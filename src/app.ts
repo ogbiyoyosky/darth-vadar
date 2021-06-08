@@ -8,10 +8,7 @@ import ApplicationError from "./errors/application-error";
 import routes from "./routes";
 const cors = require("cors");
 import { rateLimiter } from "./middleware/limiter";
-import { morganMiddleware } from './middleware/morganMiddleware';
 require('./config/database')
-import fs from 'fs'
-import path from 'path'
 import logger from './logger';
 import { client } from "./redis.connection";
 
@@ -19,7 +16,7 @@ import { client } from "./redis.connection";
 const app = express();
 client();
 const morganFormat = process.env.NODE_ENV !== "production" ? "dev" : "combined";
-// const accessLogStream = fs.createWriteStream(path.join(__dirname, '../logs/logfile'), { flags: 'a' })
+
 
 app.use(morgan('combined', { stream: logger.stream }))
 

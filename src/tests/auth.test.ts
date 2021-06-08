@@ -2,7 +2,6 @@ import request from 'supertest'
 import * as ORM from "knex";
 import app from '../app'
 import dotenv from 'dotenv'
-import { assert } from '@hapi/joi';
 dotenv.config()
 const knex = ORM.knex({
   client: 'mysql2',
@@ -34,11 +33,12 @@ beforeAll(async()=> {
 afterAll(async ()=> {
   await knex.migrate.rollback()
 })
-let token
-let refreshToken
 
 describe('User and Authentication management', () => {
-  it('should register a user', async () => {
+  let token
+  let refreshToken
+ 
+  it('should register a user', async (done) => {
   
     const res = await request(app).post(`/api/auth/register`).send({
       "firstName": "Emmanuel",
@@ -46,28 +46,33 @@ describe('User and Authentication management', () => {
       "email": "nuel@nueljoe.com",
       "password": "Miracle123ogbiyoyo"
      })
+     console.log("STATUS_RES",res.body.data)
      expect(res.status).toBe(201)
      expect(res.body.data.firstName).toEqual('Emmanuel')
+     done()
   })
 
-  it('should login a user', async () => {
+  it('should login a user', async (done) => {
   
     const res = await request(app).post(`/api/auth/login`).send({
       "email": "nuel@nueljoe.com",
       "password": "Miracle123ogbiyoyo"
      })
+    
      expect(res.status).toBe(200)
      expect(res.body.message).toEqual('Logged in successfully')
-     token = res.body.data.token
+   
      refreshToken = res.body.data.refreshToken
+     done()
   })
   
-  it('should logout a user', async () => {
+  it('should logout a user', async (done) => {
   
     const res = await request(app).post(`/api/auth/logout`).send({
       "refreshToken": refreshToken
      })
      expect(res.body.message).toEqual('Successfully logged out')
      expect(res.status).toBe(200)
+     done()
   })
 })

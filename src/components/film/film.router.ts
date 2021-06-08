@@ -10,7 +10,7 @@ export function FilmRouter(options: ComponentRouterOptions<IFilmController, Film
     /**
      * @fetchFilms - fetch films
      */
-    router.get("/", controller.fetchFilms);
+    router.get("/",guards.AuthGuard({ strict: true }), controller.fetchFilms);
 
     router.route("/:filmId/comments")
     .post(validator.createCommentValidator.validate, guards.AuthGuard({ strict: true }), controller.createCommentOnFlim)
