@@ -11,6 +11,7 @@ export class Token extends Model {
 
   static tableName = 'tokens' // database table name
   static idColumn = 'id' // id column name
+  
 }
 
 export type TokenShape = ModelObject<Token>

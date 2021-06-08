@@ -42,9 +42,11 @@ export class CommentService {
    * fetch a comment by film id
    */
   async fetchCommentsByFilmId(filmId: string , options: ServiceMethodOptions) {
+
     
-    let { pagination: { limit = 2, page = 0} } = options
-    page =  page <= 0 ? 0 : page--
+    let { pagination: { limit, page } } = options
+    console.log(limit, page)
+    page =  page <= 1 ? 0 : page - 1
     return await this.commentModel.query().where({filmId: filmId }).withGraphFetched("user").orderBy('createdAt', 'desc').page(page, limit)
   }
 

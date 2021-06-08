@@ -22,10 +22,8 @@ export class FilmService {
       let url = '/films/'
       url = search ? url + '?' + 'search=' + search : url
       logger.info(`fetch all film from swapi ${url}`)
-
-
       //check cache
-      new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         logger.info("Checking films in cache")
         redisClient.GET(`films`, async (err, result) => {
           logger.info("Internal Server Error")
@@ -35,41 +33,46 @@ export class FilmService {
           }
 
           if (result) {
-            logger.info("filmsgotten from cache")
+            logger.info("films gotten from cache")
             resolve(JSON.parse(result));
           } else {
-            logger.info("Making api request fpr films")
+            logger.info("Making api request from films")
             const films = await apiRequest.get(url)
             const filmApiResult = films.data.results
-
-            redisClient.SET(
-              'films',
-              JSON.stringify(filmApiResult),
-              "EX",
-              365 * 24 * 60 * 60,
-              (err, reply) => {
-
-                if (err) {
-                  logger.info("Internal Server Error")
-                  reject(new Error("Internal Server Error"));
-
+            if(!search) {
+              redisClient.SET(
+                'films',
+                JSON.stringify(filmApiResult),
+                "EX",
+                365 * 24 * 60 * 60,
+                (err, reply) => {
+  
+                  if (err) {
+                    logger.info("Internal Server Error")
+                    reject(new Error("Internal Server Error"));
+  
+                  }
+                  logger.info("films gotten from swapApi")
+                  resolve(filmApiResult);
                 }
-                logger.info("films gotten from swapApi")
-                resolve(filmApiResult);
-              }
-            );
+              );
+            }
+            resolve(filmApiResult);
           }
         });
 
       }).then(async (data: any) => {
+       
         const filmsResult = data
-        logger.info(`response for fetch all film from swapi ${filmsResult}`)
-        await Promise.all(data.map(async (film) => {
+        logger.info(`response for fetch all film from swapi ${JSON.stringify(filmsResult)}`)
+        await Promise.all( filmsResult.map(async (film) => {
           const commentCount = await this.commentService.fetchAllCommentsOnFilm(film.episode_id)
           film.comment_count = commentCount[0]["count(*)"]
           return film
         }))
-        return this.sortFilmsByDate(filmsResult)
+        const newResult = this.sortFilmsByDate(filmsResult)
+  
+        return newResult
       })
 
     } catch (error) {

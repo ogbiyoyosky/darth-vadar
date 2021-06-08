@@ -1,5 +1,4 @@
 
-import { commentService } from '../comment';
 import Guards from '../../shared/guards';
 import { CharacterControllerFactory } from './character.controller';
 import { CharacterRouter } from './character.router';
@@ -11,7 +10,7 @@ export const characterService = new CharacterService();
 
 export const characterController = CharacterControllerFactory(characterService);
 
-export const filmRouter = CharacterRouter({
+export const characterRouter = CharacterRouter({
   controller: characterController,
   guards: Guards,
 });

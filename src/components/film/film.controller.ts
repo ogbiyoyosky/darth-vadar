@@ -13,7 +13,6 @@ export interface IFilmController {
 
 export function FilmControllerFactory(filmService: FilmService): IFilmController {
   return {
-  
     /**
      * Fetch all films
      */
@@ -74,8 +73,8 @@ export function FilmControllerFactory(filmService: FilmService): IFilmController
       const { params, query: {page, limit} } :any= req;
       try {
         const films: any= await filmService.getCommentOnFlim(params.filmId, { pagination: {
-          page: Number(page),
-          limit: Number(limit)
+          page: Number(page|| 0),
+          limit: Number(limit || 2)
         }} );
 
         logger.info(JSON.stringify(films))
@@ -91,8 +90,5 @@ export function FilmControllerFactory(filmService: FilmService): IFilmController
         next(error);
       }
     },
-
-
-    
   }
 }

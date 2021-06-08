@@ -3,6 +3,7 @@ import { Router } from "express";
 import env from './helpers/env';
 import { authRouter } from "./components/auth";
 import { filmRouter } from "./components/film";
+import { characterRouter } from "./components/character";
 
 
 
@@ -22,6 +23,7 @@ router.get("/welcome", (req, res) => {
 
 router.use('/api/films', filmRouter);
 router.use('/api/auth', authRouter);
+router.use('/api/characters', characterRouter);
 
 
 export default router;

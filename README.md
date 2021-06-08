@@ -23,6 +23,7 @@ RUN `docker-compose up -d on the root directory of the project`
 - Request a specific film
 - Comment on a film
 - View comment on a film
+- Fetch an filter characters
 
 ## Cache
 Request for films are cached using redis to reduce the api calls to the swapi api and also increase the speed of the application,

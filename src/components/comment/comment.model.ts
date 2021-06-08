@@ -23,7 +23,9 @@ export class Comment extends Model {
             }
         }
     }
-}
+  }
+
+  
 }
 
 export type CommentShape = ModelObject<Comment>

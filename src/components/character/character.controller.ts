@@ -22,10 +22,11 @@ export function CharacterControllerFactory(characterService: CharacterService): 
     ): Promise<any> {
       try {
         const { query: { orderBy, order } } :any= req;
+        console.log({ orderBy, order })
         const films = await characterService.fetchCharacters(orderBy, order);
         logger.info(JSON.stringify(films))
         return res.status(httpStatus.OK).json({
-          message: 'Film successfully fetched',
+          message: 'Characters successfully fetched',
           status: 'success',
           statusCode: httpStatus.OK,
           data: films,
