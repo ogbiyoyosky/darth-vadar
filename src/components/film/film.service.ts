@@ -19,6 +19,7 @@ export class FilmService {
    */
   async fetchFilms(search: string): Promise<any> {
     try {
+      await redisClient.DEL('films');
       let url = '/films/'
       url = search ? url + '?' + 'search=' + search : url
       logger.info(`fetch all film from swapi ${url}`)
