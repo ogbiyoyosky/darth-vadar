@@ -60,3 +60,4 @@ mysqlDB
 *.mov
 *.wmv
 
+.env.default
