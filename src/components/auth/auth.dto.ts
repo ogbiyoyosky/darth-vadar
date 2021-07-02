@@ -33,8 +33,6 @@ export class AuthValidator {
             password: Joi.string()
               .required()
               .error(new Error("Password is required"))
-              .min(6)
-              .error(new Error("Password must be a minimum of six characters")),
         }
     });
 
