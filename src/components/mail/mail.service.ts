@@ -56,7 +56,8 @@ export class MailService {
      * @param { string | Buffer } options.html - A html format of the mail
      */
     async send(options: SendOption) {
-        logger.info("sending email to >>>>",options.recipients)
+        logger.info("sending email >>>>",options.recipients)
+        logger.info(JSON.stringify(options.recipients))
       try {
           this.mail.sendMail({
               from: options.from || this.from,
