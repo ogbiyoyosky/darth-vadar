@@ -30,7 +30,7 @@ export default function AuthGuard(options?: AuthGuardOptions): RequestHandler {
 
     try {
       if (!token) {
-        throw new Error();
+        throw new UnauthorizedError('Please sign in or create an account')
       }
       
       const decodedUserInfo = jwt.verify(token, JWT_AUTH_SECRET);

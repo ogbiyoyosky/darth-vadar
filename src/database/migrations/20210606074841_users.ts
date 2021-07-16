@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
         t.string('firstName')
         t.string('lastName')
         t.string('email').unique()
-        t.boolean('isActivated').defaultTo(1)
+        t.boolean('isActivated').defaultTo(0)
         t.string('activationToken')
         t.string('password')
         t.dateTime('deactivatedAt')
