@@ -56,6 +56,7 @@ export class MailService {
      * @param { string | Buffer } options.html - A html format of the mail
      */
     async send(options: SendOption) {
+        logger.info("sending email to >>>>",options.recipients)
       try {
           this.mail.sendMail({
               from: options.from || this.from,
@@ -66,7 +67,7 @@ export class MailService {
               attachments: options.attachments
           });
       } catch (error) {
-          logger.info(JSON.stringify(error))
+          logger.error("mail sending err",JSON.stringify(error))
           console.error(error);
           throw error;
       }
